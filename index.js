@@ -125,13 +125,12 @@ app
 
     const blogIdx = DB.findIndex((obj) => obj.id === +paramId);
     if (blogIdx !== -1) {
-      DB.splice(blogIdx, 1);
+      DB[blogIdx] = { ...DB[blogIdx], ...req.body };
       const newBlog = {
         id: +paramId,
         title: req.body.title,
         content: req.body.content,
       };
-      DB.push(newBlog);
       res.status(200).json({
         data: newBlog,
         message: `Successfully updated Blog for ID ${paramId}`,
