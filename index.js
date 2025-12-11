@@ -63,7 +63,7 @@ app.post("/add", (req, res) => {
       });
     }
     const newData = {
-      id: uuid(),
+      id: newId,
       title: req.body[i].title,
       content: req.body[i].content,
     };
