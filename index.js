@@ -1,10 +1,12 @@
 const express = require("express");
+const helmet = require("helmet");
 
 const PORT = 80;
 const DB = [];
 let id = 0;
 
 const app = express();
+app.use(helmet());
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -61,13 +63,12 @@ app.post("/add", (req, res) => {
       });
     }
     const newData = {
-      id: newId,
+      id: uuid(),
       title: req.body[i].title,
       content: req.body[i].content,
     };
     newBlog.push(newData);
     DB.push(newData);
-    id = id + 1;
   }
   res.status(201).json({
     data: newBlog,
@@ -87,7 +88,7 @@ app
       });
     }
 
-    const recordFound = DB.filter((obj) => obj.id === +paramId);
+    const recordFound = DB.filter((obj) => obj.id === paramId);
     if (recordFound.length > 0) {
       res.status(200).json({
         data: recordFound,
