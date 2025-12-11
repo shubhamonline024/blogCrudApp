@@ -1,5 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
+const cors = require("cors");
 
 const PORT = 80;
 const DB = [];
@@ -8,6 +9,12 @@ let id = 0;
 const app = express();
 app.use(helmet());
 app.use(express.json());
+// app.use(cors({ origin: "// your domain" }));
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Internal Server Error" });
+});
 
 app.get("/", (req, res) => {
   res.status(200).json({ status: "healthy" });
