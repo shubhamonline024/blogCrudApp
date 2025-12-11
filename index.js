@@ -8,11 +8,11 @@ const app = express();
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ status: "healthy" });
+  res.status(200).json({ status: "healthy" });
 });
 
 app.get("/blogs", (req, res) => {
-  res.json({
+  res.status(200).json({
     data: DB,
     total_blogs: DB.length,
   });
@@ -34,7 +34,7 @@ app.post("/add", (req, res) => {
     DB.push(newData);
     id = id + 1;
   }
-  res.json({
+  res.status(201).json({
     data: newBlog,
     message: `Successfully Added ${newBlog.length} blogs`,
   });
@@ -46,12 +46,12 @@ app
     const paramId = req.params.id;
     const recordFound = DB.filter((obj) => obj.id === +paramId);
     if (recordFound.length > 0) {
-      res.json({
+      res.status(200).json({
         data: recordFound,
         message: `Successfully Found Blog for ID: ${paramId}`,
       });
     } else {
-      res.json({
+      res.status(404).json({
         data: [],
         message: `Error No Blog Found for ID: ${paramId}`,
       });
@@ -68,12 +68,12 @@ app
         content: req.body.content,
       };
       DB.push(newBlog);
-      res.json({
+      res.status(200).json({
         data: newBlog,
         message: `Successfully updated Blog for ID ${paramId}`,
       });
     } else {
-      res.json({
+      res.status(404).json({
         data: [],
         message: `No Blog Found for ID ${paramId}`,
       });
@@ -85,12 +85,12 @@ app
     if (blogIdx !== -1) {
       const removedBlog = DB[blogIdx];
       DB.splice(blogIdx, 1);
-      res.json({
+      res.status(200).json({
         data: removedBlog,
         message: `Successfully Deleted Blog for ID ${paramId}`,
       });
     } else {
-      res.json({
+      res.status(404).json({
         data: [],
         message: `No Blog Found for ID ${paramId}`,
       });
